@@ -98,6 +98,9 @@ class FileProperties(QDialog):
         self.txtTags.setText(tags)
         self.txtFilePath.setText(os.path.join(path, filename))
 
+        self.btnBrowse.clicked.connect(self.browsePath)
+        self.btnRecode.clicked.connect(self.recode)
+
         # Populate video fields
         self.txtWidth.setValue(self.file.data["width"])
         self.txtHeight.setValue(self.file.data["height"])
@@ -172,10 +175,38 @@ class FileProperties(QDialog):
         # Switch to 1st page
         self.toolBox.setCurrentIndex(0)
 
+    def browsePath(self):
+        starting_folder, filename = os.path.split(self.file.data["path"])
+        newFilePath = QFileDialog.getOpenFileName(None,("Locate media file: %s" % filename),
+                                                           starting_folder)
+        self.txtFilePath.setText(newFilePath[0])
+
+    def recode(self):
+        import subprocess
+        infile = self.file.data["path"]
+        path, filename = os.path.split(infile)
+        pre, ext = os.path.splitext(filename)
+        outfile = os.path.join(path, pre+".avi")
+
+        subprocess.Popen(["ffmpeg",
+                          "-n",
+                          "-i", infile,
+                          "-vcodec", "mjpeg",
+                          "-q:v", "3",
+                          "-acodec", "pcm_u8",
+                          "-ar", "8000",
+                          "-ac", "1",
+                          "-ab", "64k ",
+                          outfile], stdin = open(os.devnull))
+        self.txtFilePath.setText(outfile)
+
     def accept(self):
         # Update file details
         self.file.data["name"] = self.txtFileName.text()
         self.file.data["tags"] = self.txtTags.text()
+
+        #experimental: update file path
+        self.file.data["path"] = self.txtFilePath.text()
 
         # Update Framerate
         self.file.data["fps"]["num"] = self.txtFrameRateNum.value()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>407</width>
-    <height>446</height>
+    <height>580</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -107,7 +107,14 @@
           <bool>true</bool>
          </property>
          <property name="readOnly">
-          <bool>true</bool>
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnBrowse">
+         <property name="text">
+          <string>Browse...</string>
          </property>
         </widget>
        </item>
@@ -115,10 +122,10 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QDialogButtonBox" name="buttonBox"/>
    </item>
-   <item row="1" column="0" rowspan="2">
+   <item row="2" column="0" rowspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -184,7 +191,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>354</width>
+            <width>352</width>
             <height>222</height>
            </rect>
           </property>
@@ -495,8 +502,8 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-28</y>
-            <width>354</width>
+            <y>0</y>
+            <width>367</width>
             <height>117</height>
            </rect>
           </property>
@@ -609,8 +616,8 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-98</y>
-            <width>354</width>
+            <y>0</y>
+            <width>367</width>
             <height>187</height>
            </rect>
           </property>
@@ -809,7 +816,7 @@
             <x>0</x>
             <y>0</y>
             <width>367</width>
-            <height>89</height>
+            <height>82</height>
            </rect>
           </property>
           <attribute name="label">
@@ -891,6 +898,14 @@
           </layout>
          </widget>
          <widget class="QWidget" name="pageOutput">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>367</width>
+            <height>190</height>
+           </rect>
+          </property>
           <attribute name="label">
            <string>Output</string>
           </attribute>
@@ -908,6 +923,13 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="btnRecode">
+     <property name="text">
+      <string>Recode to MJPEG</string>
+     </property>
     </widget>
    </item>
   </layout>
