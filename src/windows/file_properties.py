@@ -39,6 +39,8 @@ from classes.app import get_app
 from classes.logger import log
 from classes.metrics import *
 
+from classes.query import Clip
+
 try:
     import json
 except ImportError:
@@ -191,12 +193,10 @@ class FileProperties(QDialog):
         subprocess.Popen(["ffmpeg",
                           "-n",
                           "-i", infile,
-                          "-vcodec", "mjpeg",
+                          "-c:v", "mjpeg",
+                          "-pix_fmt", "yuvj422p",
                           "-q:v", "3",
-                          "-acodec", "pcm_u8",
-                          "-ar", "8000",
-                          "-ac", "1",
-                          "-ab", "64k ",
+                          "-acodec", "copy",
                           outfile], stdin = open(os.devnull))
         self.txtFilePath.setText(outfile)
 
@@ -217,6 +217,14 @@ class FileProperties(QDialog):
         if self.txtStartFrame.value() != 1 or self.txtEndFrame.value() != self.file.data["video_length"]:
             self.file.data["start"] = (self.txtStartFrame.value() - 1) / fps_float
             self.file.data["end"] = (self.txtEndFrame.value() - 1) / fps_float
+
+        # BRUTE FORCE approach: go through all clips and update file path
+
+        clips = Clip.filter(file_id=self.file.id)
+        for c in clips:
+            # update clip
+            c.data["reader"]["path"] = self.file.data["path"]
+            c.save()
 
         # Save file object
         self.file.save()
